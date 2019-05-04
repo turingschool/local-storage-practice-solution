@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Helvetica;
+}
+
+.content {
+  margin: 10px auto;
+  width: 400px;
+}
+
+.user-input {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  background: #ECECEC;
+}
+
+.to-do {
+  width: 300px;
+  margin: 25px auto 5px auto;
+  padding: 5px;
+  font-size: 90%;
+}
+
+.submit-btn {
+  width: 300px;
+  padding: 5px;
+  margin: 5px auto 25px auto;
+  background: #089B8A;
+  border: none;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 100%;
+}
+
+.card-container {
+  padding: 30px;
+  background: #A2DAD3;
+}
+
+h2 {
+  font-size: 120%;
+  margin-bottom: 10px;
+}
+
+.name-card {
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 300px;
+  background: #fff;
+}
