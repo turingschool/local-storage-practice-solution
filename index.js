@@ -1,46 +1,59 @@
 var addBtn = $('.submit-btn');
 var cardContainer = $('.card-container');
-// this line creates a toDos variable
-// if there is anything in localStorage with the key of "to-dos",
-  // it will use that, parsed OUT of JSON (so take off the surrounding quotes)
-// if localStorage "to-dos" is null/empty, we start with an empty array
-var toDos = JSON.parse(localStorage.getItem('to-dos')) || []
+var toDos = JSON.parse(localStorage.getItem('to-dos')) || [];
 
-// this is a completely new function
-// it gets called on page load (see line 21)
-// it goes through the array in localStorage and appends each to-do
-  // to the container
 function appendAllToDos() {
   toDos.forEach(function(toDo) {
     cardContainer.append(`
-      <p>${toDo}</p>
+      <div>
+        <p class="to-do">${toDo}</p>
+        <button class="complete">mark complete</button>
+      </div>
     `);
-  })
+  });
 }
 
 appendAllToDos();
 
 addBtn.on("click", appendToDo);
 
+
 function appendToDo() {
   var toDo = $('.to-do').val();
-
   cardContainer.append(`
-    <p>${toDo}</p>
+    <div>
+      <p class="to-do">${toDo}</p>
+      <button class="complete">mark complete</button>
+    </div>
   `);
-
-  // since setStorage has several steps, I refactored this into it's own function.
-  // it takes one argument, the toDo string that the user typed in
   setStorage(toDo);
-
   $('.to-do').val("");
 }
 
 function setStorage(toDo) {
-  // add the latest toDo to the toDos array
   toDos.push(toDo);
-  // stringify the toDos array so it's in JSON and can be stored
   var toDoString = JSON.stringify(toDos)
-  // set the stringified, updated array back to localStorage
   localStorage.setItem('to-dos', toDoString);
+}
+
+// event listener for completing/removing a todo
+// it cannot be placed directly on the complete button as it doesn't exist on the original DOM
+cardContainer.on("click", ".complete", completeToDo);
+
+// complete to do function takes the event object since we need to know which todo to delete
+function completeToDo(event) {
+  // this line gets the content of the todo from the P tag above the complete button
+  var toDotoDelete = event.target.parentNode.children[0].textContent;
+  // this line finds the location of that string in the array
+  var indexToDelete = toDos.indexOf(toDotoDelete);
+
+  // this line removes that element from the array
+  toDos.splice(indexToDelete, 1);
+  // this stringifies the array
+  var toDoString = JSON.stringify(toDos);
+  // reset the local storage with one less element
+  localStorage.setItem('to-dos', toDoString);
+
+  // remove the element from the DOM so user can't see!
+  event.target.parentNode.remove();
 }
